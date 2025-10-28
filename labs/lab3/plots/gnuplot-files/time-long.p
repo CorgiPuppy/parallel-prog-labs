@@ -11,5 +11,5 @@ set format x '%g'
 set logscale x
 
 set output "plots/pictures/time-long.png"
-plot "plots/files/time-long.dat" using 1:2 with linespoints, \
-     "plots/files/time-long.dat" using 1:3 with linespoints
+plot "plots/files/time-long.dat" using 1:2 title "без for" with linespoints, \
+     "plots/files/time-long.dat" using 1:3 title "с for" with linespoints
