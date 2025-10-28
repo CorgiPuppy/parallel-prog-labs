@@ -77,3 +77,14 @@ void calculateProductParallelNoFor(std::vector<int> firstVector, std::vector<int
         total_scalar_product += partial_results[i];
 	}
 }
+
+void calculateProductParallelWithFor(std::vector<int> firstVector, std::vector<int> secondVector) {
+    int total_scalar_product = 0;
+   	 
+	#pragma omp parallel num_threads(Constants::numberOfThreads) reduction(+:total_scalar_product)
+	{
+		#pragma omp for
+		for (int i = 0; i < firstVector.size(); i++)
+			total_scalar_product += firstVector[i] * secondVector[i];
+	}
+}
