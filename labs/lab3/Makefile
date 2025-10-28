@@ -12,7 +12,7 @@ OBJ := $(patsubst $(SRC_DIR)/%.cpp, $(TARGET_DIR)/%.o, $(SRC))
 GNP := $(wildcard $(GNUPLOT_DIR)/*.p)
 
 CPPC := g++
-CPPFLAGS := -fopenmp -lpthread -Wall
+CPPFLAGS := -fopenmp -Wall -I $(INC_DIR)
 GNPLT := gnuplot
 PDFLTX := pdflatex
 
@@ -28,11 +28,11 @@ run-src: $(EXE)
  
 $(EXE): $(OBJ) | $(TARGET_DIR)
 	@echo "Building binaries."
-	@$(CPPC) $^ -o $@
+	@$(CPPC) $(CPPFLAGS) $^ -o $@
 
 $(TARGET_DIR)/%.o: $(SRC_DIR)/%.cpp $(INC) | $(TARGET_DIR)
 	@echo "Building objects.."
-	@$(CPPC) $(CPPFLAGS) -c $< -o $@ -I $(INC_DIR) 
+	@$(CPPC) $(CPPFLAGS) -c $< -o $@
 
 $(TARGET_DIR):
 	@echo "Create target dir.."
