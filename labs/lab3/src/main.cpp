@@ -31,7 +31,7 @@ int main() {
         calculateProductParallelNoFor(vectorA, vectorB);
         end = std::chrono::high_resolution_clock::now();
         milli_diff = end - start;
-        long double time_taken1 = milli_diff.count();
+        long double time_taken2 = milli_diff.count();
 
         time_long << Constants::longOfVector[i] << " " << time_taken1 << " " << time_taken2 << std::endl;
     }
@@ -55,36 +55,38 @@ void generateVector(std::vector<int> &vector) {
 
 void calculateProductParallelNoFor(std::vector<int> firstVector, std::vector<int> secondVector) {
     int total_scalar_product = 0;
-   	 
+   	int size = firstVector.size();
+
 	#pragma omp parallel num_threads(Constants::numberOfThreads)
 	{
 		int thread_id = omp_get_thread_num();
 		int num_threads = omp_get_num_threads();
 
-		int start = thread_id * (firstVector.size() / num_threads);
+		int start = thread_id * (size / num_threads);
 			
 		int end;
 		if (thread_id == num_threads - 1)
-			end = firstVector.size();
+			end = size;
 		else
-			end = (thread_id + 1) * (firstVector.size() / num_threads);
+			end = (thread_id + 1) * (size / num_threads);
 			
 		int partial_result = 0;
 		for (int i = start; i < end; i++)
 			partial_result += firstVector[i] * secondVector[i];
 
 		#pragma omp critical
-        total_scalar_product += partial_results[i];
+        total_scalar_product += partial_result;
 	}
 }
 
 void calculateProductParallelWithFor(std::vector<int> firstVector, std::vector<int> secondVector) {
     int total_scalar_product = 0;
+	int size = firstVector.size();
    	 
 	#pragma omp parallel num_threads(Constants::numberOfThreads) reduction(+:total_scalar_product)
 	{
 		#pragma omp for
-		for (int i = 0; i < firstVector.size(); i++)
+		for (int i = 0; i < size; i++)
 			total_scalar_product += firstVector[i] * secondVector[i];
 	}
 }
