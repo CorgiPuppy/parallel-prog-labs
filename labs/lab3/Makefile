@@ -12,7 +12,7 @@ OBJ := $(patsubst $(SRC_DIR)/%.cpp, $(TARGET_DIR)/%.o, $(SRC))
 GNP := $(wildcard $(GNUPLOT_DIR)/*.p)
 
 CPPC := g++
-CPPFLAGS := -lpthread -Wall
+CPPFLAGS := -fopenmp -lpthread -Wall
 GNPLT := gnuplot
 PDFLTX := pdflatex
 
